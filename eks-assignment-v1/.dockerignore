@@ -1,0 +1,10 @@
+.git
+.DS_Store
+Dockerfile
+README.md
+.gitignore
+.jshintrc
+CONTRIBUTING.md
+LICENSE.txt
+Rakefile
+package-lock.json
