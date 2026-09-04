@@ -26,6 +26,15 @@ module "eks" {
 
 enable_cluster_creator_admin_permissions = true
 
+addons = {
+    coredns = {}
+    kube-proxy = {}
+
+    vpc-cni = {
+        before_compute = true
+    }
+}
+
 eks_managed_node_groups = {
     default = {
         subnet_ids = var.private_subnet_ids
