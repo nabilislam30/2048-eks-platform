@@ -29,3 +29,35 @@ variable "availability_zones" {
 variable "repository_name" {
   type = string
 }
+
+variable "cluster_name" {
+  type = string
+}
+
+variable "cluster_version" {
+  type = string
+}
+
+variable "instance_types" {
+  type = list(string)
+}
+
+variable "min_size" {
+  type = number
+}
+
+variable "max_size" {
+  type = number
+}
+
+variable "desired_size" {
+  type = number
+}
+
+variable "capacity_type" {
+  type = string
+}
+
+variable "public_access_cidrs" {
+  type = list(string)
+}
