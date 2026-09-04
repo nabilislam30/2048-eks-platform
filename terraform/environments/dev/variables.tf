@@ -1,15 +1,31 @@
 variable "aws_region" {
-  type    = string
-  default = "eu-west-2"
+  type = string
 }
 
 variable "project_name" {
-  type    = string
-  default = "2048-eks-platform"
+  type = string
 }
 
 variable "environment" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
+variable "vpc_cidr" {
+  type = string
+}
+
+variable "public_subnet_cidrs" {
+  type = list(string)
+}
+
+variable "private_subnet_cidrs" {
+  type = list(string)
+}
+
+variable "availability_zones" {
+  type = list(string)
+}
+
+variable "repository_name" {
+  type = string
+}
