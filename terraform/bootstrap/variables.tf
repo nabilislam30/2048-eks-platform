@@ -8,11 +8,6 @@ variable "aws_profile" {
   default = ""
 }
 
-variable "repository_name" {
-  type    = string
-  default = ""
-}
-
 variable "project_name" {
   type    = string
   default = ""

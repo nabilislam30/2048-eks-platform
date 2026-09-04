@@ -1,55 +1,55 @@
 variable "cluster_name" {
-    type       = string
+  type = string
 }
 
 variable "cluster_version" {
-    type       = string
+  type = string
 }
 
 variable "project_name" {
-    type       = string
+  type = string
 }
 
 variable "environment" {
-    type       = string
+  type = string
 }
 
 variable "vpc_id" {
-    type       = string
+  type = string
 }
 
 variable "private_subnet_ids" {
-    type       = list(string)
+  type = list(string)
 }
 
 variable "cluster_role_arn" {
-    type       = string
+  type = string
 }
 
 variable "node_group_role_arn" {
-    type       = string
+  type = string
 }
 
 variable "instance_types" {
-    type       = list(string)
+  type = list(string)
 }
 
 variable "min_size" {
-    type       = number
+  type = number
 }
 
 variable "max_size" {
-    type       = number
+  type = number
 }
 
 variable "desired_size" {
-    type       = number
+  type = number
 }
 
 variable "capacity_type" {
-    type       = string
+  type = string
 }
 
 variable "public_access_cidrs" {
-    type      = list(string)
+  type = list(string)
 }
