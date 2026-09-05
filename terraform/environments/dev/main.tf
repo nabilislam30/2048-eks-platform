@@ -43,3 +43,20 @@ module "eks" {
 
   public_access_cidrs = var.public_access_cidrs
 }
+
+module "load_balancer_controller_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts"
+  version = "6.8.0"
+
+  name            = "${var.project_name}-${var.environment}-alb-controller"
+  use_name_prefix = false
+
+  attach_load_balancer_controller_policy = true
+
+  oidc_providers = {
+    eks = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+    }
+  }
+}
