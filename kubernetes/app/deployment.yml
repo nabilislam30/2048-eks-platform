@@ -1,5 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: 2048-app
 
@@ -19,5 +20,14 @@ spec:
       containers:
         - name: 2048-app
           image: 156204501476.dkr.ecr.eu-west-2.amazonaws.com/2048-app:v2
+
           ports:
             - containerPort: 80
+
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
