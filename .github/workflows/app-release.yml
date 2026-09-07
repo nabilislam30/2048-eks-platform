@@ -51,7 +51,8 @@ jobs:
         run: docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Update deployment
-        run: sed -i "s|image: .*2048-app:.*|image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|" kubernetes/app/deployment.yml
+        run: |
+        sed -i "s|image: .*2048-app:.*|image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|" kubernetes/app/deployment.yml
 
       - name: Commit deployment
         run: |
