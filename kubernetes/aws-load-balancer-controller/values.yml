@@ -1,0 +1,9 @@
+clusterName: 2048-eks-cluster
+
+serviceAccount:
+  create: false
+  name: aws-load-balancer-controller
+
+region: eu-west-2
+
+vpcId: vpc-00bb6f06f6dba9deb
