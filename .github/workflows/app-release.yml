@@ -1,0 +1,62 @@
+name: app-release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/**"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+env:
+  AWS_REGION: eu-west-2
+  ECR_REGISTRY: 156204501476.dkr.ecr.eu-west-2.amazonaws.com
+  ECR_REPOSITORY: 2048-app
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::156204501476:role/2048-eks-platform-dev-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build image
+        run: docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app
+
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Push image
+        run: docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Update deployment
+        run: sed -i "s|image: .*2048-app:.*|image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|" kubernetes/app/deployment.yml
+
+      - name: Commit deployment
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add kubernetes/app/deployment.yml
+          git diff --staged --quiet || git commit -m "chore: update app image"
+          git push
