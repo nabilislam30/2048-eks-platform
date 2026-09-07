@@ -18,6 +18,9 @@ module "iam" {
   source       = "../../modules/iam"
   project_name = var.project_name
   environment  = var.environment
+
+  github_repo        = "nabilislam30/2048-eks-platform"
+  ecr_repository_arn = module.ecr.repository_arn
 }
 
 module "eks" {
