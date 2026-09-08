@@ -3,6 +3,7 @@ resource "aws_iam_role" "terraform_plan" {
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
+
     Statement = [{
       Effect = "Allow"
 
@@ -36,6 +37,7 @@ resource "aws_iam_role_policy" "terraform_plan_state" {
 
   policy = jsonencode({
     Version = "2012-10-17"
+
     Statement = [{
       Effect = "Allow"
 
@@ -59,6 +61,7 @@ resource "aws_iam_role" "terraform_apply" {
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
+
     Statement = [{
       Effect = "Allow"
 
@@ -84,18 +87,22 @@ resource "aws_iam_role_policy" "terraform_apply" {
 
   policy = jsonencode({
     Version = "2012-10-17"
+
     Statement = [
       {
         Effect = "Allow"
+
         Action = [
           "ec2:*",
           "eks:*",
           "logs:*"
         ]
+
         Resource = "*"
       },
       {
         Effect = "Allow"
+
         Action = [
           "iam:CreateRole",
           "iam:DeleteRole",
@@ -126,10 +133,12 @@ resource "aws_iam_role_policy" "terraform_apply" {
           "iam:ListOpenIDConnectProviders",
           "iam:TagOpenIDConnectProvider"
         ]
+
         Resource = "*"
       },
       {
         Effect = "Allow"
+
         Action = [
           "ecr:CreateRepository",
           "ecr:DeleteRepository",
@@ -140,16 +149,32 @@ resource "aws_iam_role_policy" "terraform_apply" {
           "ecr:UntagResource",
           "ecr:ListTagsForResource"
         ]
+
         Resource = "*"
       },
       {
         Effect = "Allow"
+
+        Action = [
+          "kms:DescribeKey",
+          "kms:GetKeyPolicy",
+          "kms:GetKeyRotationStatus",
+          "kms:ListResourceTags",
+          "kms:ListAliases"
+        ]
+
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+
         Action = [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
           "s3:ListBucket"
         ]
+
         Resource = [
           "arn:aws:s3:::${var.state_bucket_name}",
           "arn:aws:s3:::${var.state_bucket_name}/*"
