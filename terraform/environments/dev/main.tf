@@ -21,6 +21,7 @@ module "iam" {
 
   github_repo        = "nabilislam30/2048-eks-platform"
   ecr_repository_arn = module.ecr.repository_arn
+  state_bucket_name  = "2048-eks-platform-terraform-state-2026"
 }
 
 module "eks" {

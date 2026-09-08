@@ -13,3 +13,7 @@ variable "github_repo" {
 variable "ecr_repository_arn" {
   type = string
 }
+
+variable "state_bucket_name" {
+  type = string
+}
