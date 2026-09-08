@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: 2048-app
-          image: 156204501476.dkr.ecr.eu-west-2.amazonaws.com/2048-app:v2
+          image: 156204501476.dkr.ecr.eu-west-2.amazonaws.com/2048-app:59762aa4eef5ec2e4caf390a5530d6cbe0a25c35
 
           ports:
             - containerPort: 80
