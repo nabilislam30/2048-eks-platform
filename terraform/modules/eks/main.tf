@@ -2,7 +2,6 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "21.25.0"
 
-
   name               = var.cluster_name
   kubernetes_version = var.cluster_version
 
@@ -24,7 +23,27 @@ module "eks" {
     "scheduler"
   ]
 
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
+
+  access_entries = {
+    cluster_creator = {
+      principal_arn = "arn:aws:iam::156204501476:user/Nabil"
+
+      policy_associations = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
+
+  kms_key_administrators = [
+    "arn:aws:iam::156204501476:user/Nabil"
+  ]
 
   addons = {
     coredns    = {}

@@ -169,6 +169,15 @@ resource "aws_iam_role_policy" "terraform_apply" {
         Effect = "Allow"
 
         Action = [
+          "ssm:GetParameter"
+        ]
+
+        Resource = "arn:aws:ssm:eu-west-2::parameter/aws/service/eks/optimized-ami/*"
+      },
+      {
+        Effect = "Allow"
+
+        Action = [
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
