@@ -1,0 +1,115 @@
+name: terraform
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "terraform/**"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "terraform/**"
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  TF_VAR_aws_region: ${{ vars.AWS_REGION }}
+  TF_VAR_project_name: ${{ vars.PROJECT_NAME }}
+  TF_VAR_environment: ${{ vars.ENVIRONMENT }}
+  TF_VAR_repository_name: ${{ vars.REPOSITORY_NAME }}
+  TF_VAR_vpc_cidr: ${{ vars.VPC_CIDR }}
+  TF_VAR_availability_zones: ${{ vars.AVAILABILITY_ZONES }}
+  TF_VAR_public_subnet_cidrs: ${{ vars.PUBLIC_SUBNET_CIDRS }}
+  TF_VAR_private_subnet_cidrs: ${{ vars.PRIVATE_SUBNET_CIDRS }}
+  TF_VAR_cluster_name: ${{ vars.CLUSTER_NAME }}
+  TF_VAR_cluster_version: ${{ vars.CLUSTER_VERSION }}
+  TF_VAR_instance_types: ${{ vars.INSTANCE_TYPES }}
+  TF_VAR_min_size: ${{ vars.MIN_SIZE }}
+  TF_VAR_max_size: ${{ vars.MAX_SIZE }}
+  TF_VAR_desired_size: ${{ vars.DESIRED_SIZE }}
+  TF_VAR_capacity_type: ${{ vars.CAPACITY_TYPE }}
+  TF_VAR_public_access_cidrs: ${{ secrets.EKS_PUBLIC_ACCESS_CIDRS }}
+
+jobs:
+  terraform-plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::156204501476:role/2048-eks-platform-dev-terraform-plan-role
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.7
+
+      - name: Terraform init
+        working-directory: terraform/environments/dev
+        run: terraform init
+
+      - name: Terraform validate
+        working-directory: terraform/environments/dev
+        run: terraform validate
+
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@v12.1347.0
+        with:
+          directory: terraform
+          quiet: true
+
+      - name: Terraform plan
+        working-directory: terraform/environments/dev
+        run: terraform plan
+
+  terraform-apply:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::156204501476:role/2048-eks-platform-dev-terraform-apply-role
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.7
+
+      - name: Terraform init
+        working-directory: terraform/environments/dev
+        run: terraform init
+
+      - name: Terraform validate
+        working-directory: terraform/environments/dev
+        run: terraform validate
+
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@v12.1347.0
+        with:
+          directory: terraform
+          quiet: true
+
+      - name: Terraform plan
+        working-directory: terraform/environments/dev
+        run: terraform plan
+
+      - name: Terraform apply
+        working-directory: terraform/environments/dev
+        run: terraform apply -auto-approve
