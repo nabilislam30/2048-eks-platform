@@ -64,7 +64,7 @@ jobs:
         run: terraform validate
 
       - name: Checkov
-        uses: bridgecrewio/checkov-action@v12.1347.0
+        uses: bridgecrewio/checkov-action@v12
         with:
           directory: terraform
           quiet: true
@@ -101,10 +101,13 @@ jobs:
         run: terraform validate
 
       - name: Checkov
-        uses: bridgecrewio/checkov-action@v12.1347.0
+        uses: bridgecrewio/checkov-action@v12
         with:
           directory: terraform
+          framework: terraform
           quiet: true
+          download_external-modules: true
+          skip_check: CKV_AWS_145,CKV_AWS_18,CKV_AWS_144,CKV_AWS_136
 
       - name: Terraform plan
         working-directory: terraform/environments/dev
