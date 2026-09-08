@@ -25,7 +25,7 @@ resource "aws_iam_role" "github_actions" {
           }
 
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:*"
+            "token.actions.githubusercontent.com:sub" = "repo:nabilislam30@150935632/2048-eks-platform@1352510869:*"
           }
         }
       }
