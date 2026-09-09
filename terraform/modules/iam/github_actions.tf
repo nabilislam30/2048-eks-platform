@@ -3,10 +3,7 @@ resource "aws_iam_openid_connect_provider" "github" {
   client_id_list = ["sts.amazonaws.com"]
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-github-oidc"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-github-oidc"
   }
 }
 
@@ -40,10 +37,7 @@ resource "aws_iam_role" "github_actions" {
   })
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-github-actions-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-github-actions-role"
   }
 }
 
