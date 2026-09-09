@@ -811,41 +811,37 @@ GitHub Repository
 → Actions
 ```
 
-The Terraform workflow reads environment-specific configuration from GitHub repository variables.
+## GitHub Repository Configuration
 
-#### Repository Variables
+The Terraform workflow reads environment-specific values from **GitHub repository variables** and **repository secrets**.
 
-Create the following under **Variables**:
+### Repository Variables
 
-| Variable | Value |
-|---|---|
-| `AWS_REGION` | `eu-west-2` |
-| `PROJECT_NAME` | `2048-eks-platform` |
-| `ENVIRONMENT` | `dev` |
-| `REPOSITORY_NAME` | `2048-app` |
-| `VPC_CIDR` | `10.0.0.0/16` |
-| `AVAILABILITY_ZONES` | `["eu-west-2a","eu-west-2b"]` |
-| `PUBLIC_SUBNET_CIDRS` | `["10.0.1.0/24","10.0.2.0/24"]` |
-| `PRIVATE_SUBNET_CIDRS` | `["10.0.3.0/24","10.0.4.0/24"]` |
-| `CLUSTER_NAME` | `2048-eks-cluster` |
-| `CLUSTER_VERSION` | `1.34` |
-| `INSTANCE_TYPES` | `["t3.small"]` |
-| `MIN_SIZE` | `1` |
-| `MAX_SIZE` | `3` |
-| `DESIRED_SIZE` | `3` |
-| `CAPACITY_TYPE` | `ON_DEMAND` |
+#### General
+- `AWS_REGION` = `eu-west-2`
+- `PROJECT_NAME` = `2048-eks-platform`
+- `ENVIRONMENT` = `dev`
+- `REPOSITORY_NAME` = `2048-app`
 
-The workflow converts these into Terraform input variables using `TF_VAR_*` environment variables.
+#### Network
+- `VPC_CIDR` = `10.0.0.0/16`
+- `AVAILABILITY_ZONES` = `["eu-west-2a","eu-west-2b"]`
+- `PUBLIC_SUBNET_CIDRS` = `["10.0.1.0/24","10.0.2.0/24"]`
+- `PRIVATE_SUBNET_CIDRS` = `["10.0.3.0/24","10.0.4.0/24"]`
 
-#### Repository Secret
+#### EKS
+- `CLUSTER_NAME` = `2048-eks-cluster`
+- `CLUSTER_VERSION` = `1.34`
+- `INSTANCE_TYPES` = `["t3.small"]`
+- `MIN_SIZE` = `1`
+- `MAX_SIZE` = `3`
+- `DESIRED_SIZE` = `3`
+- `CAPACITY_TYPE` = `ON_DEMAND`
 
-Create the following under **Secrets**:
+### Repository Secret
+- `EKS_PUBLIC_ACCESS_CIDRS` = `["203.0.113.10/32"]`
 
-| Secret | Example |
-|---|---|
-| `EKS_PUBLIC_ACCESS_CIDRS` | `["203.0.113.10/32"]` |
-
-Replace the example address with your actual public IP.
+The workflow maps these values into Terraform inputs using `TF_VAR_*` environment variables.
 
 > [!NOTE]
 > The EKS API endpoint is restricted by CIDR rather than being open to the entire internet. If your public IP changes, this value must also be updated.
@@ -1250,30 +1246,35 @@ Prometheus
 
 ## Technologies Used
 
-| Area | Technology |
-|---|---|
-| Cloud | AWS |
-| Containers | Docker |
-| Container Registry | Amazon ECR |
-| Kubernetes | Amazon EKS |
-| Infrastructure as Code | Terraform |
-| Kubernetes Package Management | Helm |
-| GitOps | ArgoCD |
-| CI/CD | GitHub Actions |
-| AWS Authentication | GitHub OIDC |
-| Kubernetes AWS Permissions | IRSA |
-| Ingress | AWS Application Load Balancer |
-| Load Balancer Integration | AWS Load Balancer Controller |
-| DNS | Cloudflare |
-| DNS Automation | ExternalDNS |
-| TLS | AWS Certificate Manager |
-| Monitoring | Prometheus |
-| Dashboards | Grafana |
-| Alerting | Alertmanager |
-| Container Security | Trivy |
-| IaC Security | Checkov |
-| Terraform State | Amazon S3 |
-| Encryption | AWS KMS |
-| CLI | kubectl / AWS CLI |
+### Platform
+- **AWS** – cloud platform
+- **Amazon EKS** – managed Kubernetes cluster
+- **Docker** – containerisation
+- **Amazon ECR** – container image registry
+- **Terraform** – infrastructure as code
 
+### Deployment and GitOps
+- **Helm** – Kubernetes package management
+- **ArgoCD** – GitOps continuous delivery
+- **GitHub Actions** – CI/CD pipeline
+- **GitHub OIDC** – secure AWS authentication for pipelines
+
+### Networking and Security
+- **AWS Application Load Balancer (ALB)** – ingress entry point
+- **AWS Load Balancer Controller** – manages ALB resources from Kubernetes
+- **Cloudflare** – DNS hosting
+- **ExternalDNS** – automatic DNS record management
+- **AWS Certificate Manager (ACM)** – TLS certificate management
+- **IRSA** – IAM Roles for Service Accounts
+
+### Monitoring
+- **Prometheus** – metrics collection
+- **Grafana** – dashboards and visualisation
+- **Alertmanager** – alert handling
+
+### Security and State
+- **Trivy** – container image scanning
+- **Checkov** – Terraform security scanning
+- **Amazon S3** – Terraform remote state
+- **AWS KMS** – encryption for state and secrets
 ---
