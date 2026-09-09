@@ -26,10 +26,7 @@ resource "aws_iam_role" "terraform_plan" {
   })
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-terraform-plan-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-terraform-plan-role"
   }
 }
 
@@ -88,10 +85,7 @@ resource "aws_iam_role" "terraform_apply" {
   })
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-terraform-apply-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-terraform-apply-role"
   }
 }
 
