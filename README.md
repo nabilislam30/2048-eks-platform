@@ -69,8 +69,6 @@ Cloudflare manages the DNS zone, ExternalDNS maintains the application DNS recor
   <img src="assets/2048-demo.gif" width="850" alt="2048 application running on Amazon EKS">
 </p>
 
-The application is exposed through an AWS Application Load Balancer, with Cloudflare managing DNS and AWS Certificate Manager providing TLS.
-
 ---
 
 ## Architecture Overview
