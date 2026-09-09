@@ -7,9 +7,6 @@ resource "aws_ecr_repository" "this" {
   }
 
   tags = {
-    Name        = var.repository_name
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = var.repository_name
   }
 }
