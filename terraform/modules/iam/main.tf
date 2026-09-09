@@ -15,10 +15,7 @@ resource "aws_iam_role" "eks_cluster" {
   })
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-eks-cluster-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-eks-cluster-role"
   }
 }
 
@@ -44,10 +41,7 @@ resource "aws_iam_role" "eks_nodes" {
   })
 
   tags = {
-    Name        = "${var.project_name}-${var.environment}-eks-node-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
+    Name = "${var.project_name}-${var.environment}-eks-node-role"
   }
 }
 
