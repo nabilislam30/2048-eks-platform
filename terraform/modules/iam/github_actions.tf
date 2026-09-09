@@ -1,13 +1,6 @@
 resource "aws_iam_openid_connect_provider" "github" {
   url            = "https://token.actions.githubusercontent.com"
   client_id_list = ["sts.amazonaws.com"]
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-github-oidc"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
 }
 
 resource "aws_iam_role" "github_actions" {
@@ -38,13 +31,6 @@ resource "aws_iam_role" "github_actions" {
       }
     ]
   })
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-github-actions-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
 }
 
 resource "aws_iam_role_policy" "github_actions_ecr" {

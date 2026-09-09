@@ -12,8 +12,6 @@ module "ecr" {
   source = "../../modules/ecr"
 
   repository_name = var.repository_name
-  project_name    = var.project_name
-  environment     = var.environment
 }
 
 module "iam" {
@@ -64,11 +62,5 @@ module "load_balancer_controller_irsa" {
       provider_arn               = module.eks.oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
-  }
-
-  tags = {
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
   }
 }

@@ -13,13 +13,6 @@ resource "aws_iam_role" "eks_cluster" {
       }
     ]
   })
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-eks-cluster-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
@@ -42,13 +35,6 @@ resource "aws_iam_role" "eks_nodes" {
       }
     ]
   })
-
-  tags = {
-    Name        = "${var.project_name}-${var.environment}-eks-node-role"
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
