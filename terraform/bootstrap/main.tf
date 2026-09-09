@@ -1,5 +1,12 @@
 resource "aws_s3_bucket" "terraform_state_bucket" {
   bucket = var.state_bucket_name
+
+  tags = {
+    Name      = var.state_bucket_name
+    Project   = var.project_name
+    ManagedBy = "Terraform"
+    Purpose   = "TerraformState"
+  }
 }
 
 resource "aws_s3_bucket_versioning" "terraform_state_bucket_versioning" {
