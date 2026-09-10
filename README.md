@@ -317,6 +317,7 @@ This keeps the version stored in Git aligned with the version ArgoCD expects to 
 <p align="center">
   <img src="assets/ArgoCD.png" width="850" alt="ArgoCD Applications">
 </p>
+
 ---
 
 ## CI/CD Pipelines
@@ -387,6 +388,8 @@ The apply workflow uses a separate IAM role with the permissions required to man
   <img src="assets/terraform-plan.png" width="320" alt="Terraform Plan Pipeline">
   <img src="assets/terraform-apply.png" width="320" alt="Terraform Apply Pipeline">
 </p>
+
+---
 
 ### Application Release Pipeline
 
