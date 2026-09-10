@@ -448,7 +448,7 @@ This creates a direct link between the running container and the Git commit that
 <p align="center">
   <img src="assets/App-release%20pipeline.png" width="650" alt="Application Release Pipeline">
 </p>
----
+
 
 ## Observability
 
