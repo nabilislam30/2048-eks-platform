@@ -12,8 +12,6 @@
 ![Checkov](https://img.shields.io/badge/Checkov-IaC%20Security-green)
 ![OIDC](https://img.shields.io/badge/Security-OIDC%20%2F%20IRSA-green)
 
-the goal of the project was to deploy A containerised 2048 game application on AWS EKS. The infrastructure is provisioned via Terraform and deployment managed through ArgoCD using GitOps approach. CI/CD pipelines automating security scans, docker image builds, and application deployments to EKS. Dynamic DNS and SSL/TLS certificate management for security endpoints. Monitoring tools like Prometheus and Grafana are configured to provide real-time insights into application performance and infrastructure health. 
-
 
 <p align="center">
   <img src="assets/EKS%20Architecture.png" width="1000" alt="2048 EKS Architecture">
