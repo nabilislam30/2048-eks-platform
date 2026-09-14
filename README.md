@@ -414,7 +414,7 @@ Login to ECR
    ↓
 Docker build
    ↓
-Trivy security scan
+Grype vulnerability scan
    ↓
 Push image to ECR
    ↓
@@ -427,11 +427,11 @@ ArgoCD detects the change
 Deploy updated application
 ```
 
-Trivy scans for:
+Grype scans for:
 
 ```text
-HIGH
-CRITICAL
+Severity-cutoff
+High
 ```
 
 severity vulnerabilities.
@@ -544,7 +544,7 @@ This provides an additional check for infrastructure-as-code misconfigurations b
 
 ### Container Security Scanning
 
-Trivy scans each application image before it is pushed to Amazon ECR.
+Grype scans each application image before it is pushed to Amazon ECR.
 
 The release pipeline checks for:
 
@@ -1273,7 +1273,7 @@ Prometheus
 - **Alertmanager** – alert handling
 
 ### Security and State
-- **Trivy** – container image scanning
+- **Grype** – container image scanning
 - **Checkov** – Terraform security scanning
 - **Amazon S3** – Terraform remote state
 - **AWS KMS** – encryption for state and secrets
