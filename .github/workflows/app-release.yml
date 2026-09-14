@@ -39,7 +39,7 @@ jobs:
       - name: Build image
         run: docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app
 
-      - name: Scan image
+      - name: Scan image with Grype
         uses: anchore/scan-action@27805bf3b4e84b4a5c980df22ed233c00390a439 # v7.4.2
         with:
           image-ref: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
