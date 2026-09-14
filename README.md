@@ -14,7 +14,7 @@
 
 
 <p align="center">
-  <img src="assets/EKS%20Architecture.png" width="1000" alt="2048 EKS Architecture">
+  <img src="assets/EKS Architecture.png.png" width="1000" alt="2048 EKS Architecture">
 </p>
 
 ---
