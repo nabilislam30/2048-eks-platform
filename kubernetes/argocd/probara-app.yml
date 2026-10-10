@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: probara
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/nabilislam30/probara.git
+    targetRevision: feat/eks-integration
+    path: helm/monitoring-platform
+
+    helm:
+      releaseName: probara
+
+      values: |
+        global:
+          imagePullPolicy: IfNotPresent
+
+        image:
+          repository: ghcr.io/yassinebenameur/probara
+          tag: "1.0.0-alpha.76"
+
+        postgresql:
+          enabled: true
+          persistence:
+            enabled: true
+            size: 10Gi
+            storageClass: ebs-gp3
+
+        nats:
+          enabled: true
+          persistence:
+            enabled: true
+            size: 1Gi
+            storageClass: ebs-gp3
+
+        api:
+          enabled: true
+          replicas: 2
+          publicBaseURL: "https://probara.nabilenv.com"
+
+        scheduler:
+          enabled: true
+          replicas: 1
+
+        worker:
+          enabled: true
+          replicas: 2
+          autoscaling:
+            enabled: false
+
+        alerter:
+          enabled: true
+          replicas: 2
+
+        statusPage:
+          enabled: true
+          replicas: 2
+          baseUrl: "https://status.nabilenv.com"
+
+        frontend:
+          enabled: true
+          replicas: 2
+          statusPageUrl: "https://status.nabilenv.com"
+
+          image:
+            repository: ghcr.io/yassinebenameur/probara-frontend
+            tag: "1.0.0-alpha.76"
+            pullPolicy: IfNotPresent
+
+        ingress:
+          enabled: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: probara
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,52 @@
+global:
+  imagePullPolicy: IfNotPresent
+
+image:
+  repository: ghcr.io/yassinebenameur/probara
+  tag: "v1.0.0-alpha.76"
+
+postgresql:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: "gp2"
+
+nats:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: "gp2"
+
+api:
+  enabled: true
+  replicas: 2
+  publicBaseURL: "https://probara.nabilenv.com"
+
+scheduler:
+  enabled: true
+  replicas: 1
+
+worker:
+  enabled: true
+  replicas: 2
+  autoscaling:
+    enabled: false
+
+alerter:
+  enabled: true
+  replicas: 2
+
+statusPage:
+  enabled: true
+  replicas: 2
+  baseUrl: "https://status.nabilenv.com"
+
+frontend:
+  enabled: true
+  replicas: 2
+  statusPageUrl: "https://status.nabilenv.com"
+
+ingress:
+  enabled: false
