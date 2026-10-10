@@ -29,14 +29,14 @@ spec:
           persistence:
             enabled: true
             size: 10Gi
-            storageClass: gp2
+            storageClass: ebs-gp3
 
         nats:
           enabled: true
           persistence:
             enabled: true
             size: 1Gi
-            storageClass: gp2
+            storageClass: ebs-gp3
 
         api:
           enabled: true
