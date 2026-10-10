@@ -22,7 +22,7 @@ spec:
 
         image:
           repository: ghcr.io/yassinebenameur/probara
-          tag: "v1.0.0-alpha.76"
+          tag: "1.0.0-alpha.76"
 
         postgresql:
           enabled: true
@@ -66,6 +66,11 @@ spec:
           enabled: true
           replicas: 2
           statusPageUrl: "https://status.nabilenv.com"
+
+          image:
+            repository: ghcr.io/yassinebenameur/probara-frontend
+            tag: "1.0.0-alpha.76"
+            pullPolicy: IfNotPresent
 
         ingress:
           enabled: false
