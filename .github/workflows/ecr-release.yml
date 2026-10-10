@@ -1,0 +1,92 @@
+name: Probara ECR Release
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: eu-west-2
+  ECR_REGISTRY: 156204501476.dkr.ecr.eu-west-2.amazonaws.com
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - name: api
+            repository: probara-api
+            dockerfile: ./api/Dockerfile
+            context: .
+
+          - name: scheduler
+            repository: probara-scheduler
+            dockerfile: ./scheduler/Dockerfile
+            context: .
+
+          - name: worker
+            repository: probara-worker
+            dockerfile: ./worker/Dockerfile
+            context: .
+
+          - name: alerter
+            repository: probara-alerter
+            dockerfile: ./alerter/Dockerfile
+            context: .
+
+          - name: status-page
+            repository: probara-status-page
+            dockerfile: ./status-page/Dockerfile
+            context: .
+
+          - name: migrations
+            repository: probara-migrations
+            dockerfile: ./Dockerfile.migrations
+            context: .
+
+          - name: frontend
+            repository: probara-frontend
+            dockerfile: ./web/Dockerfile
+            context: ./web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::156204501476:role/probara-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build image
+        run: |
+          docker build \
+            -f ${{ matrix.dockerfile }} \
+            -t $ECR_REGISTRY/${{ matrix.repository }}:$IMAGE_TAG \
+            ${{ matrix.context }}
+
+      - name: Scan image with Grype
+        uses: anchore/scan-action@27805bf3b4e84b4a5c980df22ed233c00390a439
+        with:
+          image-ref: ${{ env.ECR_REGISTRY }}/${{ matrix.repository }}:${{ env.IMAGE_TAG }}
+          fail-build: true
+          severity-cutoff: high
+          ignore-unfixed: true
+
+      - name: Push image
+        run: |
+          docker push \
+            $ECR_REGISTRY/${{ matrix.repository }}:$IMAGE_TAG
