@@ -10,12 +10,14 @@ postgresql:
   persistence:
     enabled: true
     size: 10Gi
+    storageClass: "gp2"
 
 nats:
   enabled: true
   persistence:
     enabled: true
     size: 1Gi
+    storageClass: "gp2"
 
 api:
   enabled: true
